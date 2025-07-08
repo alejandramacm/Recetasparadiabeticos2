@@ -40,47 +40,52 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
     <style>
-        /* Base styles for the font */
+        /* Estilos base para la fuente */
         body {
             font-family: 'Inter', sans-serif;
         }
-        /* Style for the hero section with background image */
+        /* Estilo para la sección hero con imagen de fondo */
         .hero-section {
+            /* Mantengo la imagen original, pero puedes cambiarla por una más acorde a la nueva paleta */
             background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://placehold.co/1920x1080/4ade80/ffffff?text=Comida+Saludable');
             background-size: cover;
             background-position: center;
         }
-        /* Styles for the active tab button */
+        /* Estilos para el botón de pestaña activo (ahora naranja) */
         .tab-button.active {
-            background-color: #10b981; /* Tailwind emerald green */
+            background-color: #f97316; /* orange-500 */
             color: white;
             font-weight: 600;
         }
-        /* Styles for inactive tab content */
+        /* Estilos para el contenido de la pestaña inactivo */
         .tab-content {
-            display: none; /* Hide content by default */
+            display: none; /* Oculta el contenido por defecto */
         }
-        /* Styles for active tab content */
+        /* Estilos para el contenido de la pestaña activo */
         .tab-content.active {
-            display: block; /* Show active content */
+            display: block; /* Muestra el contenido activo */
         }
-        /* Styles for the cookie banner */
+        /* Estilos para el banner de cookies */
         #cookie-banner {
             position: fixed;
             bottom: 0;
             left: 0;
             width: 100%;
-            background-color: #1f2937; /* Dark gray */
+            background-color: #262626; /* stone-900 para un fondo oscuro neutro */
             color: white;
             padding: 1rem;
             text-align: center;
-            z-index: 1000; /* Ensure it's on top of other content */
+            z-index: 1000; /* Asegura que esté encima de otro contenido */
             box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             gap: 0.75rem;
+        }
+        /* La clase 'hidden' de Tailwind se encargará de 'display: none;' */
+        #cookie-banner.hidden {
+            display: none;
         }
         @media (min-width: 768px) {
             #cookie-banner {
@@ -89,37 +94,83 @@
                 padding: 1rem 2rem;
             }
         }
+
+        /* Estilos para los modales (ventanas emergentes) */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 0.75rem; /* rounded-xl */
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2); /* shadow-xl */
+            max-width: 90%;
+            max-height: 90%;
+            overflow-y: auto;
+            position: relative;
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+        .modal-overlay.active .modal-content {
+            transform: translateY(0);
+        }
+        .modal-close-button {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #4b5563; /* gray-600 */
+        }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
     <!-- Header & Navigation -->
-    <header class="bg-gradient-to-r from-green-100 via-white to-white shadow-md sticky top-0 z-50">
+    <header class="bg-gradient-to-r from-orange-100 via-white to-white shadow-md sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
-            <a href="#" class="text-2xl font-bold text-green-700">Recetas Diabéticas</a>
+            <a href="#" class="text-2xl font-bold text-orange-700">Recetas Diabéticas</a>
             <div class="hidden md:flex space-x-6 items-center">
-                <!-- These links are still for scrolling to sections -->
-                <a href="#inicio" class="text-gray-600 hover:text-green-600 font-semibold">Inicio</a>
+                <!-- Estos enlaces siguen siendo para desplazamiento a secciones -->
+                <a href="#inicio" class="text-gray-600 hover:text-orange-600 font-semibold">Inicio</a>
                 <!-- Tab links will be in a separate bar -->
-                <a href="#contacto" class="bg-green-500 text-white px-4 py-2 rounded-full hover:bg-green-600 transition duration-300">Contacto</a>
+                <a href="#contacto" class="bg-orange-500 text-white px-4 py-2 rounded-full hover:bg-orange-600 transition duration-300">Contacto</a>
             </div>
             <!-- Mobile Menu Button -->
             <div class="md:hidden">
-                <button id="mobile-menu-button" class="text-gray-600 hover:text-green-600 focus:outline-none">
+                <button id="mobile-menu-button" class="text-gray-600 hover:text-orange-600 focus:outline-none">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
                 </button>
             </div>
         </nav>
         <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden md:hidden bg-white">
-            <a href="#inicio" class="block py-2 px-4 text-sm text-gray-600 hover:bg-green-50">Inicio</a>
-            <!-- Here you could also add links for the tabs if you want the mobile menu to control them -->
-            <button class="tab-button block py-2 px-4 text-sm text-gray-600 hover:bg-green-50 text-left w-full" onclick="openTab('recetas-faciles-content'); document.getElementById('mobile-menu').classList.add('hidden');">Recetas Fáciles</button>
-            <button class="tab-button block py-2 px-4 text-sm text-gray-600 hover:bg-green-50 text-left w-full" onclick="openTab('menus-content'); document.getElementById('mobile-menu').classList.add('hidden');">Menús</button>
-            <button class="tab-button block py-2 px-4 text-sm text-gray-600 hover:bg-green-50 text-left w-full" onclick="openTab('desayunos-content'); document.getElementById('mobile-menu').classList.add('hidden');">Desayunos</button>
-            <button class="tab-button block py-2 px-4 text-sm text-gray-600 hover:bg-green-50 text-left w-full" onclick="openTab('postres-content'); document.getElementById('mobile-menu').classList.add('hidden');">Postres</button>
-            <button class="tab-button block py-2 px-4 text-sm text-gray-600 hover:bg-green-50 text-left w-full" onclick="openTab('diabeticos2-content'); document.getElementById('mobile-menu').classList.add('hidden');">Diabéticos 2</button>
-            <button class="tab-button block py-2 px-4 text-sm text-gray-600 hover:bg-green-50 text-left w-full" onclick="openTab('recetario-content'); document.getElementById('mobile-menu').classList.add('hidden');">Recetario PDF</button>
-            <a href="#contacto" class="block py-2 px-4 text-sm text-gray-600 hover:bg-green-50">Contacto</a>
+            <a href="#inicio" class="block py-2 px-4 text-sm text-gray-600 hover:bg-orange-50">Inicio</a>
+            <!-- Aquí también se podrían añadir enlaces para las pestañas si se desea que el menú móvil las controle -->
+            <button class="tab-button block py-2 px-4 text-sm text-gray-600 hover:bg-orange-50 text-left w-full" onclick="openTab('recetas-faciles-content'); document.getElementById('mobile-menu').classList.add('hidden');">Recetas Fáciles</button>
+            <button class="tab-button block py-2 px-4 text-sm text-gray-600 hover:bg-orange-50 text-left w-full" onclick="openTab('menus-content'); document.getElementById('mobile-menu').classList.add('hidden');">Menús</button>
+            <button class="tab-button block py-2 px-4 text-sm text-gray-600 hover:bg-orange-50 text-left w-full" onclick="openTab('desayunos-content'); document.getElementById('mobile-menu').classList.add('hidden');">Desayunos</button>
+            <button class="tab-button block py-2 px-4 text-sm text-gray-600 hover:bg-orange-50 text-left w-full" onclick="openTab('postres-content'); document.getElementById('mobile-menu').classList.add('hidden');">Postres</button>
+            <button class="tab-button block py-2 px-4 text-sm text-gray-600 hover:bg-orange-50 text-left w-full" onclick="openTab('diabeticos2-content'); document.getElementById('mobile-menu').classList.add('hidden');">Diabéticos 2</button>
+            <button class="tab-button block py-2 px-4 text-sm text-gray-600 hover:bg-orange-50 text-left w-full" onclick="openTab('recetario-content'); document.getElementById('mobile-menu').classList.add('hidden');">Recetario PDF</button>
+            <a href="#contacto" class="block py-2 px-4 text-sm text-gray-600 hover:bg-orange-50">Contacto</a>
         </div>
     </header>
 
@@ -131,7 +182,7 @@
                 <h1 class="text-4xl md:text-6xl font-bold mb-4">Comer Rico y Sano es Posible</h1>
                 <p class="text-lg md:text-xl mb-8">Descubre recetas para diabéticos que cuidan tu salud sin sacrificar el sabor.</p>
                 <!-- This button now leads to the first recipe tab -->
-                <button onclick="openTab('recetas-faciles-content')" class="bg-green-500 text-white px-8 py-3 rounded-full hover:bg-green-600 transition duration-300 text-lg font-semibold">Ver Recetas Gratis</button>
+                <button onclick="openTab('recetas-faciles-content')" class="bg-orange-500 text-white px-8 py-3 rounded-full hover:bg-orange-600 transition duration-300 text-lg font-semibold">Ver Recetas Gratis</button>
             </div>
         </section>
 
@@ -139,21 +190,21 @@
         <div class="container mx-auto px-6 py-8">
             <!-- Tab navigation bar -->
             <div class="flex flex-wrap justify-center border-b border-gray-200 bg-white p-2 rounded-xl shadow-md gap-2">
-                <button id="recetas-faciles-content-button" class="tab-button flex-1 min-w-[150px] py-3 px-4 text-center text-lg font-medium text-gray-700 hover:bg-green-50 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition duration-300 ease-in-out rounded-md active" onclick="openTab('recetas-faciles-content')">Recetas Fáciles</button>
-                <button id="menus-content-button" class="tab-button flex-1 min-w-[150px] py-3 px-4 text-center text-lg font-medium text-gray-700 hover:bg-green-50 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition duration-300 ease-in-out rounded-md" onclick="openTab('menus-content')">Menús</button>
-                <button id="desayunos-content-button" class="tab-button flex-1 min-w-[150px] py-3 px-4 text-center text-lg font-medium text-gray-700 hover:bg-green-50 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition duration-300 ease-in-out rounded-md" onclick="openTab('desayunos-content')">Desayunos</button>
-                <button id="postres-content-button" class="tab-button flex-1 min-w-[150px] py-3 px-4 text-center text-lg font-medium text-gray-700 hover:bg-green-50 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition duration-300 ease-in-out rounded-md" onclick="openTab('postres-content')">Postres</button>
-                <button id="diabeticos2-content-button" class="tab-button flex-1 min-w-[150px] py-3 px-4 text-center text-lg font-medium text-gray-700 hover:bg-green-50 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition duration-300 ease-in-out rounded-md" onclick="openTab('diabeticos2-content')">Diabéticos 2</button>
-                <button id="recetario-content-button" class="tab-button flex-1 min-w-[150px] py-3 px-4 text-center text-lg font-medium text-gray-700 hover:bg-green-50 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition duration-300 ease-in-out rounded-md" onclick="openTab('recetario-content')">Recetario PDF</button>
+                <button id="recetas-faciles-content-button" class="tab-button flex-1 min-w-[150px] py-3 px-4 text-center text-lg font-medium text-gray-700 hover:bg-orange-50 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition duration-300 ease-in-out rounded-md active" onclick="openTab('recetas-faciles-content')">Recetas Fáciles</button>
+                <button id="menus-content-button" class="tab-button flex-1 min-w-[150px] py-3 px-4 text-center text-lg font-medium text-gray-700 hover:bg-orange-50 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition duration-300 ease-in-out rounded-md" onclick="openTab('menus-content')">Menús</button>
+                <button id="desayunos-content-button" class="tab-button flex-1 min-w-[150px] py-3 px-4 text-center text-lg font-medium text-gray-700 hover:bg-orange-50 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition duration-300 ease-in-out rounded-md" onclick="openTab('desayunos-content')">Desayunos</button>
+                <button id="postres-content-button" class="tab-button flex-1 min-w-[150px] py-3 px-4 text-center text-lg font-medium text-gray-700 hover:bg-orange-50 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition duration-300 ease-in-out rounded-md" onclick="openTab('postres-content')">Postres</button>
+                <button id="diabeticos2-content-button" class="tab-button flex-1 min-w-[150px] py-3 px-4 text-center text-lg font-medium text-gray-700 hover:bg-orange-50 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition duration-300 ease-in-out rounded-md" onclick="openTab('diabeticos2-content')">Diabéticos 2</button>
+                <button id="recetario-content-button" class="tab-button flex-1 min-w-[150px] py-3 px-4 text-center text-lg font-medium text-gray-700 hover:bg-orange-50 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition duration-300 ease-in-out rounded-md" onclick="openTab('recetario-content')">Recetario PDF</button>
             </div>
 
-            <!-- Tab content -->
+            <!-- Contenido de las pestañas -->
             <div id="tab-content-display" class="bg-white rounded-xl shadow-xl overflow-hidden mt-8 p-6">
-                <!-- Block 1: Easy and Quick Recipes (Default tab) -->
+                <!-- Block 1: Recetas Fáciles y Rápidas (Pestaña por defecto) -->
                 <section id="recetas-faciles-content" class="tab-content active">
                     <div class="flex flex-col md:flex-row items-center gap-8">
                         <div class="md:w-1/2">
-                            <h2 class="text-3xl font-bold text-green-700 mb-4">Recetas Fáciles para el Día a Día</h2>
+                            <h2 class="text-3xl font-bold text-orange-700 mb-4">Recetas Fáciles para el Día a Día</h2>
                             <p class="text-lg leading-relaxed">
                                 Sabemos que tu tiempo es valioso. Por eso, hemos recopilado una selección de <strong>recetas</strong> que son increíblemente <strong>fáciles</strong> de preparar. Olvídate de complicaciones en la cocina. Aquí encontrarás platos deliciosos y saludables que se adaptan a tu rutina, demostrando que cuidar de tu alimentación puede ser sencillo y placentero. Todas nuestras guías son <strong>gratis</strong> para que empieces hoy mismo.
                             </p>
@@ -164,11 +215,11 @@
                     </div>
                 </section>
 
-                <!-- Block 6: Menu Planning -->
+                <!-- Block 6: Planificación de Menús -->
                 <section id="menus-content" class="tab-content">
                     <div class="flex flex-col md:flex-row-reverse items-center gap-8">
                         <div class="md:w-1/2">
-                            <h2 class="text-3xl font-bold text-green-700 mb-4">Planifica tus Menús Semanales</h2>
+                            <h2 class="text-3xl font-bold text-orange-700 mb-4">Planifica tus Menús Semanales</h2>
                             <p class="text-lg leading-relaxed">
                                 Organizar tus comidas es clave. Te ayudamos a planificar menús semanales completos, incluyendo almuerzos, cenas y snacks. Con nuestras <strong>recetas por raciones</strong>, la planificación se vuelve una tarea sencilla y efectiva. Accede a nuestros planes de menú <strong>gratis</strong> y simplifica tu vida mientras cuidas tu salud.
                             </p>
@@ -179,11 +230,11 @@
                     </div>
                 </section>
 
-                <!-- Block 5: Energetic Breakfasts -->
+                <!-- Block 5: Desayunos Energéticos -->
                 <section id="desayunos-content" class="tab-content">
                     <div class="flex flex-col md:flex-row items-center gap-8">
                         <div class="md:w-1/2">
-                            <h2 class="text-3xl font-bold text-green-700 mb-4">Empieza el Día con Energía</h2>
+                            <h2 class="text-3xl font-bold text-orange-700 mb-4">Empieza el Día con Energía</h2>
                             <p class="text-lg leading-relaxed">
                                 El desayuno es la comida más importante. Te presentamos ideas de desayunos completos y equilibrados, con <strong>recetas fáciles</strong> y rápidas para que comiences tu jornada de la mejor manera. Desde batidos de frutas hasta avena con frutos secos, nuestras opciones <strong>gratis</strong> te darán la energía que necesitas sin picos de azúcar.
                             </p>
@@ -194,11 +245,11 @@
                     </div>
                 </section>
 
-                <!-- Block 2: Desserts and Sweet Recipes -->
+                <!-- Block 2: Postres y Recetas Dulces -->
                 <section id="postres-content" class="tab-content">
                     <div class="flex flex-col md:flex-row-reverse items-center gap-8">
                         <div class="md:w-1/2">
-                            <h2 class="text-3xl font-bold text-green-700 mb-4">¡Sí, Hay Postre! Recetas Dulces Permitidas</h2>
+                            <h2 class="text-3xl font-bold text-orange-700 mb-4">¡Sí, Hay Postre! Recetas Dulces Permitidas</h2>
                             <p class="text-lg leading-relaxed">
                                 ¿Quién dijo que los diabéticos no pueden disfrutar de un capricho? Descubre nuestras <strong>recetas dulces</strong>, diseñadas para satisfacer tu antojo sin afectar tus niveles de glucosa. Desde pasteles hasta mousses, te enseñamos a preparar postres deliciosos utilizando ingredientes alternativos y controlando las porciones. Comer dulce de forma inteligente es posible.
                             </p>
@@ -209,11 +260,11 @@
                     </div>
                 </section>
 
-                <!-- Block 4: Guide for Type 2 Diabetics + Block 3: Portion Control -->
+                <!-- Block 4: Guía para Diabéticos Tipo 2 + Block 3: Control por Raciones -->
                 <section id="diabeticos2-content" class="tab-content">
                     <div class="flex flex-col md:flex-row-reverse items-center gap-8 mb-8">
                         <div class="md:w-1/2">
-                            <h2 class="text-3xl font-bold text-green-700 mb-4">Alimentación Específica para Diabéticos Tipo 2</h2>
+                            <h2 class="text-3xl font-bold text-orange-700 mb-4">Alimentación Específica para Diabéticos Tipo 2</h2>
                             <p class="text-lg leading-relaxed">
                                 La diabetes tipo 2 requiere una atención especial en la dieta. En esta sección, te ofrecemos menús y <strong>recetas</strong> diseñadas específicamente para <strong>diabéticos 2</strong>. Aprende a combinar alimentos, a elegir los ingredientes adecuados y a crear platos que no solo son deliciosos, sino que también contribuyen activamente a tu bienestar y control de la enfermedad.
                             </p>
@@ -222,10 +273,10 @@
                             <img src="https://raw.githubusercontent.com/alejandramacm/Recetasparadiabeticos2/main/img/salm%C3%B3n%20al%20horno.jpg" alt="" class="rounded-lg shadow-lg w-full h-auto">
                         </div>
                     </div>
-                    <!-- Integration of "Portion Control" content here -->
+                    <!-- Integración del contenido de "Control por Raciones" aquí -->
                     <div class="flex flex-col md:flex-row items-center gap-8 mt-8 pt-8 border-t border-gray-200">
                         <div class="md:w-1/2">
-                            <h2 class="text-3xl font-bold text-green-700 mb-4">El Secreto está en la Medida: Recetas por Raciones</h2>
+                            <h2 class="text-3xl font-bold text-orange-700 mb-4">El Secreto está en la Medida: Recetas por Raciones</h2>
                             <p class="text-lg leading-relaxed">
                                 Controlar los hidratos de carbono es fundamental. Por ello, todas nuestras <strong>recetas por raciones</strong> están cuidadosamente calculadas para ayudarte a gestionar tu dieta de manera efectiva. Te proporcionamos la información nutricional detallada para que puedas planificar tus comidas con total confianza y mantener un control glucémico óptimo.
                             </p>
@@ -236,45 +287,45 @@
                     </div>
                 </section>
 
-                <!-- New Tab: PDF Recipe Book -->
+                <!-- Nueva Pestaña: Recetario PDF -->
                 <section id="recetario-content" class="tab-content p-6">
-                    <h2 class="text-3xl font-bold text-green-700 mb-4">Nuestro Recetario Gratuito en PDF</h2>
+                    <h2 class="text-3xl font-bold text-orange-700 mb-4">Nuestro Recetario Gratuito en PDF</h2>
                     <p class="text-lg leading-relaxed mb-6">
                         Aquí encontrarás una colección de nuestros mejores recetarios en formato PDF, listos para descargar y llevar contigo. Ideales para tener a mano en tu cocina o para consultar desde cualquier dispositivo. ¡Disfruta de estas guías completas para una alimentación saludable y deliciosa!
                     </p>
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        <!-- Link to PDF 1 -->
-                        <div class="bg-green-50 rounded-lg shadow-md p-6 flex flex-col items-center text-center">
-                            <svg class="w-16 h-16 text-green-600 mb-4" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Enlace a PDF 1 -->
+                        <div class="bg-orange-50 rounded-lg shadow-md p-6 flex flex-col items-center text-center">
+                            <svg class="w-16 h-16 text-orange-600 mb-4" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zM12.75 9a.75.75 0 00-1.5 0v2.25H9a.75.75 0 000 1.5h2.25V15a.75.75 0 001.5 0v-2.25H15a.75.75 0 000-1.5h-2.25V9z" clip-rule="evenodd" />
                             </svg>
                             <h3 class="text-xl font-semibold text-gray-800 mb-2">Recetario Básico para Diabéticos</h3>
                             <p class="text-gray-600 mb-4">Una guía esencial con los fundamentos de la cocina para el control de la glucosa.</p>
-                            <a href="https://www.africau.edu/images/default/sample.pdf" target="_blank" class="inline-flex items-center px-4 py-2 bg-green-600 text-white font-semibold rounded-full hover:bg-green-700 transition duration-300">
+                            <a href="https://www.africau.edu/images/default/sample.pdf" target="_blank" class="inline-flex items-center px-4 py-2 bg-orange-600 text-white font-semibold rounded-full hover:bg-orange-700 transition duration-300">
                                 Descargar PDF
                                 <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 13l-7 7m0 0l-7-7m7 7V4"></path></svg>
                             </a>
                         </div>
-                        <!-- Link to PDF 2 -->
-                        <div class="bg-green-50 rounded-lg shadow-md p-6 flex flex-col items-center text-center">
-                            <svg class="w-16 h-16 text-green-600 mb-4" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Enlace a PDF 2 -->
+                        <div class="bg-orange-50 rounded-lg shadow-md p-6 flex flex-col items-center text-center">
+                            <svg class="w-16 h-16 text-orange-600 mb-4" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zM12.75 9a.75.75 0 00-1.5 0v2.25H9a.75.75 0 000 1.5h2.25V15a.75.75 0 001.5 0v-2.25H15a.75.75 0 000-1.5h-2.25V9z" clip-rule="evenodd" />
                             </svg>
                             <h3 class="text-xl font-semibold text-gray-800 mb-2">Postres Saludables para Diabéticos</h3>
                             <p class="text-gray-600 mb-4">Recetas deliciosas para disfrutar de dulces sin preocupaciones.</p>
-                            <a href="https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf" target="_blank" class="inline-flex items-center px-4 py-2 bg-green-600 text-white font-semibold rounded-full hover:bg-green-700 transition duration-300">
+                            <a href="https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf" target="_blank" class="inline-flex items-center px-4 py-2 bg-orange-600 text-white font-semibold rounded-full hover:bg-orange-700 transition duration-300">
                                 Descargar PDF
                                 <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 13l-7 7m0 0l-7-7m7 7V4"></path></svg>
                             </a>
                         </div>
-                        <!-- Link to PDF 3 -->
-                        <div class="bg-green-50 rounded-lg shadow-md p-6 flex flex-col items-center text-center">
-                            <svg class="w-16 h-16 text-green-600 mb-4" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Enlace a PDF 3 -->
+                        <div class="bg-orange-50 rounded-lg shadow-md p-6 flex flex-col items-center text-center">
+                            <svg class="w-16 h-16 text-orange-600 mb-4" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zM12.75 9a.75.75 0 00-1.5 0v2.25H9a.75.75 0 000 1.5h2.25V15a.75.75 0 001.5 0v-2.25H15a.75.75 0 000-1.5h-2.25V9z" clip-rule="evenodd" />
                             </svg>
                             <h3 class="text-xl font-semibold text-gray-800 mb-2">Menús Semanales Equilibrados</h3>
                             <p class="text-gray-600 mb-4">Ideas de menús completos para toda la semana, fáciles de seguir.</p>
-                            <a href="https://www.africau.edu/images/default/sample.pdf" target="_blank" class="inline-flex items-center px-4 py-2 bg-green-600 text-white font-semibold rounded-full hover:bg-green-700 transition duration-300">
+                            <a href="https://www.africau.edu/images/default/sample.pdf" target="_blank" class="inline-flex items-center px-4 py-2 bg-orange-600 text-white font-semibold rounded-full hover:bg-orange-700 transition duration-300">
                                 Descargar PDF
                                 <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 13l-7 7m0 0l-7-7m7 7V4"></path></svg>
                             </a>
@@ -286,28 +337,28 @@
     </main>
 
     <!-- Footer -->
-    <footer id="contacto" class="bg-green-800 text-white">
+    <footer id="contacto" class="bg-stone-800 text-white">
         <div class="container mx-auto px-6 py-10">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
                 <!-- Contact Info -->
                 <div>
                     <h3 class="text-lg font-bold mb-4">Recetas Diabéticas</h3>
-                    <p class="text-green-200">Calle Ficticia 123, 28080 Madrid, España</p>
-                    <p class="text-green-200">info@recetasdiabeticas.com</p>
-                    <p class="text-green-200">(+34) 123 456 789</p>
+                    <p class="text-stone-200">Calle Ficticia 123, 28080 Madrid, España</p>
+                    <p class="text-stone-200">info@recetasdiabeticas.com</p>
+                    <p class="text-stone-200">(+34) 123 456 789</p>
                 </div>
 
                 <!-- Social Media -->
                 <div>
                     <h3 class="text-lg font-bold mb-4">Síguenos en Redes</h3>
                     <div class="flex justify-center md:justify-start space-x-4">
-                        <a href="#" class="text-green-200 hover:text-white transition duration-300">
+                        <a href="#" class="text-stone-200 hover:text-white transition duration-300">
                             <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" /></svg>
                         </a>
-                        <a href="#" class="text-green-200 hover:text-white transition duration-300">
+                        <a href="#" class="text-stone-200 hover:text-white transition duration-300">
                             <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.71v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" /></svg>
                         </a>
-                        <a href="#" class="text-green-200 hover:text-white transition duration-300">
+                        <a href="#" class="text-stone-200 hover:text-white transition duration-300">
                             <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.024.06 1.378.06 3.808s-.012 2.784-.06 3.808c-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427-.465-1.024-.048-1.378-.06-3.808-.06s-2.784-.013-3.808-.06c-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.048-1.024-.06-1.378-.06-3.808s.012-2.784.06-3.808c.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 016.345 2.525c.636-.247 1.363-.416 2.427-.465C9.793 2.013 10.148 2 12.315 2zm-1.163 1.943c-1.046 0-1.612.01-2.185.05a3.282 3.282 0 00-1.897.647 3.282 3.282 0 00-.646 1.897c-.04 1.137-.05 1.6-.05 3.518s.01 2.381.05 3.518a3.282 3.282 0 00.646 1.897 3.282 3.282 0 001.897.647c.573.04 1.139.05 2.185.05s1.612-.01 2.185-.05a3.282 3.282 0 001.897-.647 3.282 3.282 0 00.646-1.897c.04-1.137.05-1.6.05-3.518s-.01-2.381-.05-3.518a3.282 3.282 0 00-.646-1.897 3.282 3.282 0 00-1.897-.647c-.573-.04-1.139-.05-2.185-.05zm5.496 1.822a1.2 1.2 0 100 2.4 1.2 1.2 0 000-2.4zM12 6.865a5.135 5.135 0 100 10.27 5.135 5.135 0 000-10.27zm0 1.943a3.192 3.192 0 110 6.384 3.192 3.192 0 010-6.384z" clip-rule="evenodd" /></svg>
                         </a>
                     </div>
@@ -317,13 +368,13 @@
                 <div>
                     <h3 class="text-lg font-bold mb-4">Legal</h3>
                     <ul class="space-y-2">
-                        <li><a href="#" class="text-green-200 hover:text-white transition duration-300">Protección de Datos</a></li>
-                        <li><a href="#" class="text-green-200 hover:text-white transition duration-300">Política de Privacidad</a></li>
-                        <li><a href="#" class="text-green-200 hover:text-white transition duration-300">Términos de Servicio</a></li>
+                        <li><a href="#" class="text-stone-200 hover:text-white transition duration-300" onclick="openModal('proteccion-datos-modal'); return false;">Protección de Datos</a></li>
+                        <li><a href="#" class="text-stone-200 hover:text-white transition duration-300" onclick="openModal('politica-privacidad-modal'); return false;">Política de Privacidad</a></li>
+                        <li><a href="#" class="text-stone-200 hover:text-white transition duration-300" onclick="openModal('terminos-servicio-modal'); return false;">Términos de Servicio</a></li>
                     </ul>
                 </div>
             </div>
-            <div class="border-t border-green-700 mt-8 pt-6 text-center text-green-200 text-sm">
+            <div class="border-t border-stone-700 mt-8 pt-6 text-center text-stone-200 text-sm">
                 <p>&copy; 2024 Recetas Diabéticas. Todos los derechos reservados.</p>
             </div>
         </div>
@@ -332,10 +383,10 @@
     <!-- Cookie Consent Banner -->
     <div id="cookie-banner" class="hidden">
         <p class="text-sm md:text-base">
-            Utilizamos cookies para mejorar tu experiencia en nuestra web. Al continuar navegando, aceptas el uso de nuestras cookies. Para más información, consulta nuestra <a href="#" class="text-green-400 hover:underline">Política de Cookies</a>.
+            Utilizamos cookies para mejorar tu experiencia en nuestra web. Al continuar navegando, aceptas el uso de nuestras cookies. Para más información, consulta nuestra <a href="#" class="text-orange-400 hover:underline" onclick="openModal('politica-cookies-modal'); return false;">Política de Cookies</a>.
         </p>
         <div class="flex space-x-3 mt-2 md:mt-0">
-            <button id="accept-cookies" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-md transition duration-300">
+            <button id="accept-cookies" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded-md transition duration-300">
                 Aceptar
             </button>
             <button id="reject-cookies" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-md transition duration-300">
@@ -344,66 +395,159 @@
         </div>
     </div>
 
+    <!-- Modales de Información Legal -->
+    <!-- Modal de Protección de Datos -->
+    <div id="proteccion-datos-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close-button" onclick="closeModal('proteccion-datos-modal')">&times;</button>
+            <h2 class="text-2xl font-bold text-orange-700 mb-4">Política de Protección de Datos</h2>
+            <p class="text-gray-700 leading-relaxed mb-4">
+                En Recetas Diabéticas, nos comprometemos a proteger tu privacidad y tus datos personales. Esta política describe cómo recopilamos, usamos y protegemos la información que nos proporcionas.
+            </p>
+            <p class="text-gray-700 leading-relaxed mb-4">
+                <strong>Información que recopilamos:</strong> Recopilamos información que nos proporcionas directamente, como tu nombre y correo electrónico si te suscribes a nuestro boletín o nos contactas. También recopilamos datos de uso y navegación a través de cookies (ver nuestra Política de Cookies).
+            </p>
+            <p class="text-gray-700 leading-relaxed mb-4">
+                <strong>Uso de la información:</strong> Utilizamos tus datos para mejorar tu experiencia en nuestra web, enviarte información relevante (si has dado tu consentimiento) y analizar el tráfico para optimizar nuestros servicios.
+            </p>
+            <p class="text-gray-700 leading-relaxed">
+                <strong>Tus derechos:</strong> Tienes derecho a acceder, rectificar, cancelar y oponerte al tratamiento de tus datos personales. Para ejercer estos derechos, por favor, contáctanos a través de info@recetasdiabeticas.com.
+            </p>
+        </div>
+    </div>
+
+    <!-- Modal de Política de Privacidad -->
+    <div id="politica-privacidad-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close-button" onclick="closeModal('politica-privacidad-modal')">&times;</button>
+            <h2 class="text-2xl font-bold text-orange-700 mb-4">Política de Privacidad</h2>
+            <p class="text-gray-700 leading-relaxed mb-4">
+                La presente Política de Privacidad establece los términos en que Recetas Diabéticas usa y protege la información que es proporcionada por sus usuarios al momento de utilizar su sitio web. Estamos comprometidos con la seguridad de los datos de nuestros usuarios.
+            </p>
+            <p class="text-gray-700 leading-relaxed mb-4">
+                Cuando te pedimos rellenar los campos de información personal con la cual puedas ser identificado, lo hacemos asegurando que solo se empleará de acuerdo con los términos de este documento. Sin embargo, esta Política de Privacidad puede cambiar con el tiempo o ser actualizada por lo que te recomendamos y enfatizamos revisar continuamente esta página para asegurarte que estás de acuerdo con dichos cambios.
+            </p>
+            <p class="text-gray-700 leading-relaxed">
+                Nuestra web podría contener enlaces a otros sitios que pudieran ser de tu interés. Una vez que hagas clic en estos enlaces y abandones nuestra página, ya no tenemos control sobre el sitio al que eres redirigido y por lo tanto no somos responsables de los términos o privacidad ni de la protección de tus datos en esos otros sitios terceros.
+            </p>
+        </div>
+    </div>
+
+    <!-- Modal de Términos de Servicio -->
+    <div id="terminos-servicio-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close-button" onclick="closeModal('terminos-servicio-modal')">&times;</button>
+            <h2 class="text-2xl font-bold text-orange-700 mb-4">Términos de Servicio</h2>
+            <p class="text-gray-700 leading-relaxed mb-4">
+                Bienvenido a Recetas Diabéticas. Al acceder y utilizar este sitio web, aceptas cumplir y estar sujeto a los siguientes términos y condiciones de uso. Si no estás de acuerdo con alguna parte de estos términos, por favor, no utilices nuestro sitio web.
+            </p>
+            <p class="text-gray-700 leading-relaxed mb-4">
+                <strong>Contenido:</strong> Todo el contenido proporcionado en este sitio web es solo para fines informativos y educativos. No pretende ser un sustituto del consejo médico profesional, diagnóstico o tratamiento. Siempre busca el consejo de tu médico u otro proveedor de salud calificado con cualquier pregunta que puedas tener con respecto a una condición médica.
+            </p>
+            <p class="text-gray-700 leading-relaxed mb-4">
+                <strong>Uso del sitio:</strong> Puedes utilizar este sitio web para tu uso personal y no comercial. No puedes modificar, copiar, distribuir, transmitir, display, perform, reproduce, publish, license, create derivative works from, transfer, or sell any information, software, products or services obtained from this website.
+            </p>
+            <p class="text-gray-700 leading-relaxed">
+                <strong>Modificaciones:</strong> Nos reservamos el derecho de modificar estos términos de servicio en cualquier momento. Es tu responsabilidad revisar periódicamente estos términos para estar al tanto de cualquier cambio.
+            </p>
+        </div>
+    </div>
+
+    <!-- Modal de Política de Cookies (para el enlace en el banner) -->
+    <div id="politica-cookies-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close-button" onclick="closeModal('politica-cookies-modal')">&times;</button>
+            <h2 class="text-2xl font-bold text-orange-700 mb-4">Política de Cookies</h2>
+            <p class="text-gray-700 leading-relaxed mb-4">
+                Este sitio web utiliza cookies para mejorar la experiencia del usuario. Las cookies son pequeños archivos de texto que se almacenan en tu navegador cuando visitas nuestra página. Nos ayudan a recordar tus preferencias y a analizar cómo utilizas nuestro sitio.
+            </p>
+            <p class="text-gray-700 leading-relaxed mb-4">
+                <strong>Tipos de cookies que utilizamos:</strong>
+                <ul class="list-disc list-inside ml-4">
+                    <li><strong>Cookies esenciales:</strong> Necesarias para el funcionamiento básico del sitio.</li>
+                    <li><strong>Cookies de rendimiento:</strong> Recopilan información anónima sobre cómo los visitantes usan el sitio.</li>
+                    <li><strong>Cookies de funcionalidad:</strong> Permiten recordar tus elecciones (como el idioma) para ofrecerte una experiencia más personalizada.</li>
+                    <li><strong>Cookies de publicidad:</strong> Utilizadas para mostrar anuncios relevantes para ti.</li>
+                </ul>
+            </p>
+            <p class="text-gray-700 leading-relaxed">
+                Puedes controlar y/o eliminar las cookies como desees. Puedes eliminar todas las cookies que ya están en tu ordenador y puedes configurar la mayoría de los navegadores para evitar que se instalen. Sin embargo, si haces esto, es posible que tengas que ajustar manualmente algunas preferencias cada vez que visites un sitio y que algunos servicios y funcionalidades no funcionen.
+            </p>
+        </div>
+    </div>
+
+
     <script>
-        // Function to open the selected tab
+        // Función para abrir la pestaña seleccionada
         function openTab(tabId) {
-            // Get all tab content elements
+            // Obtiene todos los elementos de contenido de las pestañas
             const tabContents = document.querySelectorAll('#tab-content-display .tab-content');
-            // Iterate over them and hide them
+            // Itera sobre ellos y los oculta
             tabContents.forEach(content => {
                 content.classList.remove('active');
             });
 
-            // Get all tab buttons
+            // Obtiene todos los botones de las pestañas
             const tabButtons = document.querySelectorAll('.tab-button');
-            // Iterate over them and remove the 'active' class
+            // Itera sobre ellos y remueve la clase 'active'
             tabButtons.forEach(button => {
                 button.classList.remove('active');
             });
 
-            // Show the content of the selected tab
+            // Muestra el contenido de la pestaña seleccionada
             document.getElementById(tabId).classList.add('active');
-            // Mark the selected tab button as active
+            // Marca el botón de la pestaña seleccionada como activo
             document.getElementById(tabId + '-button').classList.add('active');
         }
 
-        // JavaScript for the mobile menu button
+        // JavaScript para el botón del menú móvil
         document.getElementById('mobile-menu-button').addEventListener('click', function() {
             var menu = document.getElementById('mobile-menu');
             menu.classList.toggle('hidden');
         });
 
-        // Cookie Consent Logic
+        // Funciones para abrir y cerrar modales
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+            document.body.style.overflow = 'hidden'; // Evita el scroll del fondo
+            console.log(`Modal ${modalId} abierto.`); // Confirmación en consola
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+            document.body.style.overflow = ''; // Restaura el scroll del fondo
+            console.log(`Modal ${modalId} cerrado.`); // Confirmación en consola
+        }
+
+        // Lógica de consentimiento de cookies
         document.addEventListener('DOMContentLoaded', () => {
-            // Show the first tab by default
+            // Muestra la primera pestaña por defecto
             openTab('recetas-faciles-content');
 
             const cookieBanner = document.getElementById('cookie-banner');
             const acceptButton = document.getElementById('accept-cookies');
             const rejectButton = document.getElementById('reject-cookies');
 
-            // Check if the user has already made a cookie choice
+            // Comprueba si el usuario ya ha tomado una decisión sobre las cookies
             const cookieConsent = localStorage.getItem('cookieConsent');
 
             if (!cookieConsent) {
-                // If no choice has been made, show the banner
+                // Si no se ha tomado ninguna decisión, muestra el banner
                 cookieBanner.classList.remove('hidden');
             }
 
-            // Event listener for accepting cookies
+            // Event listener para aceptar cookies
             acceptButton.addEventListener('click', () => {
                 localStorage.setItem('cookieConsent', 'accepted');
                 cookieBanner.classList.add('hidden');
-                // Here you would typically initialize analytics or other scripts that require consent
-                console.log('Cookies accepted');
+                console.log('Cookies aceptadas. Banner oculto.'); // Confirmación en consola
             });
 
-            // Event listener for rejecting cookies
+            // Event listener para rechazar cookies
             rejectButton.addEventListener('click', () => {
                 localStorage.setItem('cookieConsent', 'rejected');
                 cookieBanner.classList.add('hidden');
-                // Here you would typically disable analytics or other scripts that require consent
-                console.log('Cookies rejected');
+                console.log('Cookies rechazadas. Banner oculto.'); // Confirmación en consola
             });
         });
     </script>
