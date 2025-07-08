@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-T41CEVQPZW"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-T41CEVQPZW');
-</script>  
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-T41CEVQPZW"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-T41CEVQPZW');
+    </script>
+    
     <!-- SEO Meta Tags -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -39,13 +40,29 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
     <style>
+        /* Estilos base para la fuente */
         body {
             font-family: 'Inter', sans-serif;
         }
+        /* Estilo para la sección hero con imagen de fondo */
         .hero-section {
             background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://placehold.co/1920x1080/4ade80/ffffff?text=Comida+Saludable');
             background-size: cover;
             background-position: center;
+        }
+        /* Estilos para el botón de pestaña activo */
+        .tab-button.active {
+            background-color: #10b981; /* Verde esmeralda de Tailwind */
+            color: white;
+            font-weight: 600;
+        }
+        /* Estilos para el contenido de la pestaña inactivo */
+        .tab-content {
+            display: none; /* Oculta el contenido por defecto */
+        }
+        /* Estilos para el contenido de la pestaña activo */
+        .tab-content.active {
+            display: block; /* Muestra el contenido activo */
         }
     </style>
 </head>
@@ -55,11 +72,9 @@
         <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
             <a href="#" class="text-2xl font-bold text-green-700">Recetas Diabéticas</a>
             <div class="hidden md:flex space-x-6 items-center">
+                <!-- Estos enlaces siguen siendo para desplazamiento a secciones -->
                 <a href="#inicio" class="text-gray-600 hover:text-green-600 font-semibold">Inicio</a>
-                <a href="#menus" class="text-gray-600 hover:text-green-600 font-semibold">Menús</a>
-                <a href="#desayunos" class="text-gray-600 hover:text-green-600 font-semibold">Desayunos</a>
-                <a href="#postres" class="text-gray-600 hover:text-green-600 font-semibold">Postres</a>
-                <a href="#diabeticos2" class="text-gray-600 hover:text-green-600 font-semibold">Diabéticos 2</a>
+                <!-- Los enlaces de las pestañas estarán en una barra separada -->
                 <a href="#contacto" class="bg-green-500 text-white px-4 py-2 rounded-full hover:bg-green-600 transition duration-300">Contacto</a>
             </div>
             <!-- Mobile Menu Button -->
@@ -72,10 +87,13 @@
         <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden md:hidden bg-white">
             <a href="#inicio" class="block py-2 px-4 text-sm text-gray-600 hover:bg-green-50">Inicio</a>
-            <a href="#menus" class="block py-2 px-4 text-sm text-gray-600 hover:bg-green-50">Menús</a>
-            <a href="#desayunos" class="block py-2 px-4 text-sm text-gray-600 hover:bg-green-50">Desayunos</a>
-            <a href="#postres" class="block py-2 px-4 text-sm text-gray-600 hover:bg-green-50">Postres</a>
-            <a href="#diabeticos2" class="block py-2 px-4 text-sm text-gray-600 hover:bg-green-50">Diabéticos 2</a>
+            <!-- Aquí también se podrían añadir enlaces para las pestañas si se desea que el menú móvil las controle -->
+            <button class="tab-button block py-2 px-4 text-sm text-gray-600 hover:bg-green-50 text-left w-full" onclick="openTab('recetas-faciles-content'); document.getElementById('mobile-menu').classList.add('hidden');">Recetas Fáciles</button>
+            <button class="tab-button block py-2 px-4 text-sm text-gray-600 hover:bg-green-50 text-left w-full" onclick="openTab('menus-content'); document.getElementById('mobile-menu').classList.add('hidden');">Menús</button>
+            <button class="tab-button block py-2 px-4 text-sm text-gray-600 hover:bg-green-50 text-left w-full" onclick="openTab('desayunos-content'); document.getElementById('mobile-menu').classList.add('hidden');">Desayunos</button>
+            <button class="tab-button block py-2 px-4 text-sm text-gray-600 hover:bg-green-50 text-left w-full" onclick="openTab('postres-content'); document.getElementById('mobile-menu').classList.add('hidden');">Postres</button>
+            <button class="tab-button block py-2 px-4 text-sm text-gray-600 hover:bg-green-50 text-left w-full" onclick="openTab('diabeticos2-content'); document.getElementById('mobile-menu').classList.add('hidden');">Diabéticos 2</button>
+            <button class="tab-button block py-2 px-4 text-sm text-gray-600 hover:bg-green-50 text-left w-full" onclick="openTab('recetario-content'); document.getElementById('mobile-menu').classList.add('hidden');">Recetario PDF</button>
             <a href="#contacto" class="block py-2 px-4 text-sm text-gray-600 hover:bg-green-50">Contacto</a>
         </div>
     </header>
@@ -87,103 +105,158 @@
             <div class="text-center">
                 <h1 class="text-4xl md:text-6xl font-bold mb-4">Comer Rico y Sano es Posible</h1>
                 <p class="text-lg md:text-xl mb-8">Descubre recetas para diabéticos que cuidan tu salud sin sacrificar el sabor.</p>
-                <a href="#recetas" class="bg-green-500 text-white px-8 py-3 rounded-full hover:bg-green-600 transition duration-300 text-lg font-semibold">Ver Recetas Gratis</a>
+                <!-- Este botón ahora lleva a la primera pestaña de recetas -->
+                <button onclick="openTab('recetas-faciles-content')" class="bg-green-500 text-white px-8 py-3 rounded-full hover:bg-green-600 transition duration-300 text-lg font-semibold">Ver Recetas Gratis</button>
             </div>
         </section>
 
-        <!-- Content Blocks -->
-        <div id="recetas" class="container mx-auto px-6 py-16">
+        <!-- Contenedor de Pestañas y Contenido -->
+        <div class="container mx-auto px-6 py-8">
+            <!-- Barra de navegación de pestañas -->
+            <div class="flex flex-wrap justify-center border-b border-gray-200 bg-white p-2 rounded-xl shadow-md gap-2">
+                <button id="recetas-faciles-content-button" class="tab-button flex-1 min-w-[150px] py-3 px-4 text-center text-lg font-medium text-gray-700 hover:bg-green-50 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition duration-300 ease-in-out rounded-md active" onclick="openTab('recetas-faciles-content')">Recetas Fáciles</button>
+                <button id="menus-content-button" class="tab-button flex-1 min-w-[150px] py-3 px-4 text-center text-lg font-medium text-gray-700 hover:bg-green-50 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition duration-300 ease-in-out rounded-md" onclick="openTab('menus-content')">Menús</button>
+                <button id="desayunos-content-button" class="tab-button flex-1 min-w-[150px] py-3 px-4 text-center text-lg font-medium text-gray-700 hover:bg-green-50 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition duration-300 ease-in-out rounded-md" onclick="openTab('desayunos-content')">Desayunos</button>
+                <button id="postres-content-button" class="tab-button flex-1 min-w-[150px] py-3 px-4 text-center text-lg font-medium text-gray-700 hover:bg-green-50 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition duration-300 ease-in-out rounded-md" onclick="openTab('postres-content')">Postres</button>
+                <button id="diabeticos2-content-button" class="tab-button flex-1 min-w-[150px] py-3 px-4 text-center text-lg font-medium text-gray-700 hover:bg-green-50 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition duration-300 ease-in-out rounded-md" onclick="openTab('diabeticos2-content')">Diabéticos 2</button>
+                <button id="recetario-content-button" class="tab-button flex-1 min-w-[150px] py-3 px-4 text-center text-lg font-medium text-gray-700 hover:bg-green-50 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition duration-300 ease-in-out rounded-md" onclick="openTab('recetario-content')">Recetario PDF</button>
+            </div>
 
-            <!-- Block 1: Recetas Fáciles y Rápidas -->
-            <section class="mb-16">
-                <div class="flex flex-col md:flex-row items-center gap-8">
-                    <div class="md:w-1/2">
-                        <h2 class="text-3xl font-bold text-green-700 mb-4">Recetas Fáciles para el Día a Día</h2>
-                        <p class="text-lg leading-relaxed">
-                            Sabemos que tu tiempo es valioso. Por eso, hemos recopilado una selección de <strong>recetas</strong> que son increíblemente <strong>fáciles</strong> de preparar. Olvídate de complicaciones en la cocina. Aquí encontrarás platos deliciosos y saludables que se adaptan a tu rutina, demostrando que cuidar de tu alimentación puede ser sencillo y placentero. Todas nuestras guías son <strong>gratis</strong> para que empieces hoy mismo.
-                        </p>
+            <!-- Contenido de las pestañas -->
+            <div id="tab-content-display" class="bg-white rounded-xl shadow-xl overflow-hidden mt-8 p-6">
+                <!-- Block 1: Recetas Fáciles y Rápidas (Pestaña por defecto) -->
+                <section id="recetas-faciles-content" class="tab-content active">
+                    <div class="flex flex-col md:flex-row items-center gap-8">
+                        <div class="md:w-1/2">
+                            <h2 class="text-3xl font-bold text-green-700 mb-4">Recetas Fáciles para el Día a Día</h2>
+                            <p class="text-lg leading-relaxed">
+                                Sabemos que tu tiempo es valioso. Por eso, hemos recopilado una selección de <strong>recetas</strong> que son increíblemente <strong>fáciles</strong> de preparar. Olvídate de complicaciones en la cocina. Aquí encontrarás platos deliciosos y saludables que se adaptan a tu rutina, demostrando que cuidar de tu alimentación puede ser sencillo y placentero. Todas nuestras guías son <strong>gratis</strong> para que empieces hoy mismo.
+                            </p>
+                        </div>
+                        <div class="md:w-1/2">
+                            <img src="https://placehold.co/600x400/86efac/14532d?text=Ensalada+Fresca" alt="" class="rounded-lg shadow-lg w-full h-auto">
+                        </div>
                     </div>
-                    <div class="md:w-1/2">
-                        <img src="https://placehold.co/600x400/86efac/14532d?text=Ensalada+Fresca" alt="[Imagen de una ensalada fresca y colorida]" class="rounded-lg shadow-lg w-full h-auto">
-                    </div>
-                </div>
-            </section>
+                </section>
 
-            <!-- Block 2: Postres y Recetas Dulces -->
-            <section class="mb-16">
-                <div class="flex flex-col md:flex-row-reverse items-center gap-8">
-                    <div class="md:w-1/2">
-                        <h2 class="text-3xl font-bold text-green-700 mb-4">¡Sí, Hay Postre! Recetas Dulces Permitidas</h2>
-                        <p class="text-lg leading-relaxed">
-                            ¿Quién dijo que los diabéticos no pueden disfrutar de un capricho? Descubre nuestras <strong>recetas dulces</strong>, diseñadas para satisfacer tu antojo sin afectar tus niveles de glucosa. Desde pasteles hasta mousses, te enseñamos a preparar postres deliciosos utilizando ingredientes alternativos y controlando las porciones. Comer dulce de forma inteligente es posible.
-                        </p>
+                <!-- Block 6: Planificación de Menús -->
+                <section id="menus-content" class="tab-content">
+                    <div class="flex flex-col md:flex-row-reverse items-center gap-8">
+                        <div class="md:w-1/2">
+                            <h2 class="text-3xl font-bold text-green-700 mb-4">Planifica tus Menús Semanales</h2>
+                            <p class="text-lg leading-relaxed">
+                                Organizar tus comidas es clave. Te ayudamos a planificar menús semanales completos, incluyendo almuerzos, cenas y snacks. Con nuestras <strong>recetas por raciones</strong>, la planificación se vuelve una tarea sencilla y efectiva. Accede a nuestros planes de menú <strong>gratis</strong> y simplifica tu vida mientras cuidas tu salud.
+                            </p>
+                        </div>
+                        <div class="md:w-1/2">
+                            <img src="https://placehold.co/600x400/166534/ffffff?text=Plan+Semanal" alt="" class="rounded-lg shadow-lg w-full h-auto">
+                        </div>
                     </div>
-                    <div class="md:w-1/2">
-                        <img src="https://placehold.co/600x400/4ade80/14532d?text=Postre+de+Frutas" alt="[Imagen de un postre saludable con frutas del bosque y yogur]" class="rounded-lg shadow-lg w-full h-auto">
-                    </div>
-                </div>
-            </section>
+                </section>
 
-            <!-- Block 3: Control por Raciones -->
-            <section class="mb-16">
-                <div class="flex flex-col md:flex-row items-center gap-8">
-                    <div class="md:w-1/2">
-                        <h2 class="text-3xl font-bold text-green-700 mb-4">El Secreto está en la Medida: Recetas por Raciones</h2>
-                        <p class="text-lg leading-relaxed">
-                            Controlar los hidratos de carbono es fundamental. Por ello, todas nuestras <strong>recetas por raciones</strong> están cuidadosamente calculadas para ayudarte a gestionar tu dieta de manera efectiva. Te proporcionamos la información nutricional detallada para que puedas planificar tus comidas con total confianza y mantener un control glucémico óptimo.
-                        </p>
+                <!-- Block 5: Desayunos Energéticos -->
+                <section id="desayunos-content" class="tab-content">
+                    <div class="flex flex-col md:flex-row items-center gap-8">
+                        <div class="md:w-1/2">
+                            <h2 class="text-3xl font-bold text-green-700 mb-4">Empieza el Día con Energía</h2>
+                            <p class="text-lg leading-relaxed">
+                                El desayuno es la comida más importante. Te presentamos ideas de desayunos completos y equilibrados, con <strong>recetas fáciles</strong> y rápidas para que comiences tu jornada de la mejor manera. Desde batidos de frutas hasta avena con frutos secos, nuestras opciones <strong>gratis</strong> te darán la energía que necesitas sin picos de azúcar.
+                            </p>
+                        </div>
+                        <div class="md:w-1/2">
+                            <img src="https://placehold.co/600x400/15803d/ffffff?text=Desayuno+Saludable" alt="" class="rounded-lg shadow-lg w-full h-auto">
+                        </div>
                     </div>
-                    <div class="md:w-1/2">
-                        <img src="https://placehold.co/600x400/22c55e/ffffff?text=Pollo+con+Verduras" alt="[Imagen de un plato de pollo a la plancha con verduras, perfectamente racionado]" class="rounded-lg shadow-lg w-full h-auto">
-                    </div>
-                </div>
-            </section>
+                </section>
 
-            <!-- Block 4: Guía para Diabéticos Tipo 2 -->
-            <section id="diabeticos2" class="mb-16">
-                <div class="flex flex-col md:flex-row-reverse items-center gap-8">
-                    <div class="md:w-1/2">
-                        <h2 class="text-3xl font-bold text-green-700 mb-4">Alimentación Específica para Diabéticos 2</h2>
-                        <p class="text-lg leading-relaxed">
-                            La diabetes tipo 2 requiere una atención especial en la dieta. En esta sección, te ofrecemos menús y <strong>recetas</strong> diseñadas específicamente para <strong>diabéticos 2</strong>. Aprende a combinar alimentos, a elegir los ingredientes adecuados y a crear platos que no solo son deliciosos, sino que también contribuyen activamente a tu bienestar y control de la enfermedad.
-                        </p>
+                <!-- Block 2: Postres y Recetas Dulces -->
+                <section id="postres-content" class="tab-content">
+                    <div class="flex flex-col md:flex-row-reverse items-center gap-8">
+                        <div class="md:w-1/2">
+                            <h2 class="text-3xl font-bold text-green-700 mb-4">¡Sí, Hay Postre! Recetas Dulces Permitidas</h2>
+                            <p class="text-lg leading-relaxed">
+                                ¿Quién dijo que los diabéticos no pueden disfrutar de un capricho? Descubre nuestras <strong>recetas dulces</strong>, diseñadas para satisfacer tu antojo sin afectar tus niveles de glucosa. Desde pasteles hasta mousses, te enseñamos a preparar postres deliciosos utilizando ingredientes alternativos y controlando las porciones. Comer dulce de forma inteligente es posible.
+                            </p>
+                        </div>
+                        <div class="md:w-1/2">
+                            <img src="https://placehold.co/600x400/4ade80/14532d?text=Postre+de+Frutas" alt="" class="rounded-lg shadow-lg w-full h-auto">
+                        </div>
                     </div>
-                    <div class="md:w-1/2">
-                        <img src="https://placehold.co/600x400/16a34a/ffffff?text=Salmón+al+Horno" alt="[Imagen de un filete de salmón al horno con espárragos]" class="rounded-lg shadow-lg w-full h-auto">
-                    </div>
-                </div>
-            </section>
-            
-            <!-- Block 5: Desayunos Energéticos -->
-            <section id="desayunos" class="mb-16">
-                <div class="flex flex-col md:flex-row items-center gap-8">
-                    <div class="md:w-1/2">
-                        <h2 class="text-3xl font-bold text-green-700 mb-4">Empieza el Día con Energía</h2>
-                        <p class="text-lg leading-relaxed">
-                            El desayuno es la comida más importante. Te presentamos ideas de desayunos completos y equilibrados, con <strong>recetas fáciles</strong> y rápidas para que comiences tu jornada de la mejor manera. Desde batidos de frutas hasta avena con frutos secos, nuestras opciones <strong>gratis</strong> te darán la energía que necesitas sin picos de azúcar.
-                        </p>
-                    </div>
-                    <div class="md:w-1/2">
-                        <img src="https://placehold.co/600x400/15803d/ffffff?text=Desayuno+Saludable" alt="[Imagen de un bol de avena con frutas y frutos secos]" class="rounded-lg shadow-lg w-full h-auto">
-                    </div>
-                </div>
-            </section>
+                </section>
 
-            <!-- Block 6: Planificación de Menús -->
-            <section id="menus" class="mb-16">
-                <div class="flex flex-col md:flex-row-reverse items-center gap-8">
-                    <div class="md:w-1/2">
-                        <h2 class="text-3xl font-bold text-green-700 mb-4">Planifica tus Menús Semanales</h2>
-                        <p class="text-lg leading-relaxed">
-                            Organizar tus comidas es clave. Te ayudamos a planificar menús semanales completos, incluyendo almuerzos, cenas y snacks. Con nuestras <strong>recetas por raciones</strong>, la planificación se vuelve una tarea sencilla y efectiva. Accede a nuestros planes de menú <strong>gratis</strong> y simplifica tu vida mientras cuidas tu salud.
-                        </p>
+                <!-- Block 4: Guía para Diabéticos Tipo 2 + Block 3: Control por Raciones -->
+                <section id="diabeticos2-content" class="tab-content">
+                    <div class="flex flex-col md:flex-row-reverse items-center gap-8 mb-8">
+                        <div class="md:w-1/2">
+                            <h2 class="text-3xl font-bold text-green-700 mb-4">Alimentación Específica para Diabéticos Tipo 2</h2>
+                            <p class="text-lg leading-relaxed">
+                                La diabetes tipo 2 requiere una atención especial en la dieta. En esta sección, te ofrecemos menús y <strong>recetas</strong> diseñadas específicamente para <strong>diabéticos 2</strong>. Aprende a combinar alimentos, a elegir los ingredientes adecuados y a crear platos que no solo son deliciosos, sino que también contribuyen activamente a tu bienestar y control de la enfermedad.
+                            </p>
+                        </div>
+                        <div class="md:w-1/2">
+                            <img src="https://placehold.co/600x400/16a34a/ffffff?text=Salmón+al+Horno" alt="" class="rounded-lg shadow-lg w-full h-auto">
+                        </div>
                     </div>
-                    <div class="md:w-1/2">
-                        <img src="https://placehold.co/600x400/166534/ffffff?text=Plan+Semanal" alt="[Imagen de una libreta con un plan de menú semanal]" class="rounded-lg shadow-lg w-full h-auto">
+                    <!-- Integración del contenido de "Control por Raciones" aquí -->
+                    <div class="flex flex-col md:flex-row items-center gap-8 mt-8 pt-8 border-t border-gray-200">
+                        <div class="md:w-1/2">
+                            <h2 class="text-3xl font-bold text-green-700 mb-4">El Secreto está en la Medida: Recetas por Raciones</h2>
+                            <p class="text-lg leading-relaxed">
+                                Controlar los hidratos de carbono es fundamental. Por ello, todas nuestras <strong>recetas por raciones</strong> están cuidadosamente calculadas para ayudarte a gestionar tu dieta de manera efectiva. Te proporcionamos la información nutricional detallada para que puedas planificar tus comidas con total confianza y mantener un control glucémico óptimo.
+                            </p>
+                        </div>
+                        <div class="md:w-1/2">
+                            <img src="https://placehold.co/600x400/22c55e/ffffff?text=Pollo+con+Verduras" alt="" class="rounded-lg shadow-lg w-full h-auto">
+                        </div>
                     </div>
-                </div>
-            </section>
+                </section>
 
+                <!-- Nueva Pestaña: Recetario PDF -->
+                <section id="recetario-content" class="tab-content p-6">
+                    <h2 class="text-3xl font-bold text-green-700 mb-4">Nuestro Recetario Gratuito en PDF</h2>
+                    <p class="text-lg leading-relaxed mb-6">
+                        Aquí encontrarás una colección de nuestros mejores recetarios en formato PDF, listos para descargar y llevar contigo. Ideales para tener a mano en tu cocina o para consultar desde cualquier dispositivo. ¡Disfruta de estas guías completas para una alimentación saludable y deliciosa!
+                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Enlace a PDF 1 -->
+                        <div class="bg-green-50 rounded-lg shadow-md p-6 flex flex-col items-center text-center">
+                            <svg class="w-16 h-16 text-green-600 mb-4" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zM12.75 9a.75.75 0 00-1.5 0v2.25H9a.75.75 0 000 1.5h2.25V15a.75.75 0 001.5 0v-2.25H15a.75.75 0 000-1.5h-2.25V9z" clip-rule="evenodd" />
+                            </svg>
+                            <h3 class="text-xl font-semibold text-gray-800 mb-2">Recetario Básico para Diabéticos</h3>
+                            <p class="text-gray-600 mb-4">Una guía esencial con los fundamentos de la cocina para el control de la glucosa.</p>
+                            <a href="https://www.africau.edu/images/default/sample.pdf" target="_blank" class="inline-flex items-center px-4 py-2 bg-green-600 text-white font-semibold rounded-full hover:bg-green-700 transition duration-300">
+                                Descargar PDF
+                                <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 13l-7 7m0 0l-7-7m7 7V4"></path></svg>
+                            </a>
+                        </div>
+                        <!-- Enlace a PDF 2 -->
+                        <div class="bg-green-50 rounded-lg shadow-md p-6 flex flex-col items-center text-center">
+                            <svg class="w-16 h-16 text-green-600 mb-4" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zM12.75 9a.75.75 0 00-1.5 0v2.25H9a.75.75 0 000 1.5h2.25V15a.75.75 0 001.5 0v-2.25H15a.75.75 0 000-1.5h-2.25V9z" clip-rule="evenodd" />
+                            </svg>
+                            <h3 class="text-xl font-semibold text-gray-800 mb-2">Postres Saludables para Diabéticos</h3>
+                            <p class="text-gray-600 mb-4">Recetas deliciosas para disfrutar de dulces sin preocupaciones.</p>
+                            <a href="https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf" target="_blank" class="inline-flex items-center px-4 py-2 bg-green-600 text-white font-semibold rounded-full hover:bg-green-700 transition duration-300">
+                                Descargar PDF
+                                <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 13l-7 7m0 0l-7-7m7 7V4"></path></svg>
+                            </a>
+                        </div>
+                        <!-- Enlace a PDF 3 -->
+                        <div class="bg-green-50 rounded-lg shadow-md p-6 flex flex-col items-center text-center">
+                            <svg class="w-16 h-16 text-green-600 mb-4" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zM12.75 9a.75.75 0 00-1.5 0v2.25H9a.75.75 0 000 1.5h2.25V15a.75.75 0 001.5 0v-2.25H15a.75.75 0 000-1.5h-2.25V9z" clip-rule="evenodd" />
+                            </svg>
+                            <h3 class="text-xl font-semibold text-gray-800 mb-2">Menús Semanales Equilibrados</h3>
+                            <p class="text-gray-600 mb-4">Ideas de menús completos para toda la semana, fáciles de seguir.</p>
+                            <a href="https://www.africau.edu/images/default/sample.pdf" target="_blank" class="inline-flex items-center px-4 py-2 bg-green-600 text-white font-semibold rounded-full hover:bg-green-700 transition duration-300">
+                                Descargar PDF
+                                <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 13l-7 7m0 0l-7-7m7 7V4"></path></svg>
+                            </a>
+                        </div>
+                    </div>
+                </section>
+            </div>
         </div>
     </main>
 
@@ -207,10 +280,10 @@
                             <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" /></svg>
                         </a>
                         <a href="#" class="text-green-200 hover:text-white transition duration-300">
-                           <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.71v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" /></svg>
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.71v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" /></svg>
                         </a>
                         <a href="#" class="text-green-200 hover:text-white transition duration-300">
-                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.024.06 1.378.06 3.808s-.012 2.784-.06 3.808c-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.024.048-1.378.06-3.808.06s-2.784-.013-3.808-.06c-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.048-1.024-.06-1.378-.06-3.808s.012-2.784.06-3.808c.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 016.345 2.525c.636-.247 1.363-.416 2.427-.465C9.793 2.013 10.148 2 12.315 2zm-1.163 1.943c-1.046 0-1.612.01-2.185.05a3.282 3.282 0 00-1.897.647 3.282 3.282 0 00-.646 1.897c-.04 1.137-.05 1.6-.05 3.518s.01 2.381.05 3.518a3.282 3.282 0 00.646 1.897 3.282 3.282 0 001.897.647c.573.04 1.139.05 2.185.05s1.612-.01 2.185-.05a3.282 3.282 0 001.897-.647 3.282 3.282 0 00.646-1.897c.04-1.137.05-1.6.05-3.518s-.01-2.381-.05-3.518a3.282 3.282 0 00-.646-1.897 3.282 3.282 0 00-1.897-.647c-.573-.04-1.139-.05-2.185-.05zm5.496 1.822a1.2 1.2 0 100 2.4 1.2 1.2 0 000-2.4zM12 6.865a5.135 5.135 0 100 10.27 5.135 5.135 0 000-10.27zm0 1.943a3.192 3.192 0 110 6.384 3.192 3.192 0 010-6.384z" clip-rule="evenodd" /></svg>
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.024.06 1.378.06 3.808s-.012 2.784-.06 3.808c-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427-.465-1.024-.048-1.378-.06-3.808-.06s-2.784-.013-3.808-.06c-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.048-1.024-.06-1.378-.06-3.808s.012-2.784.06-3.808c.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 016.345 2.525c.636-.247 1.363-.416 2.427-.465C9.793 2.013 10.148 2 12.315 2zm-1.163 1.943c-1.046 0-1.612.01-2.185.05a3.282 3.282 0 00-1.897.647 3.282 3.282 0 00-.646 1.897c-.04 1.137-.05 1.6-.05 3.518s.01 2.381.05 3.518a3.282 3.282 0 00.646 1.897 3.282 3.282 0 001.897.647c.573.04 1.139.05 2.185.05s1.612-.01 2.185-.05a3.282 3.282 0 001.897-.647 3.282 3.282 0 00.646-1.897c.04-1.137.05-1.6.05-3.518s-.01-2.381-.05-3.518a3.282 3.282 0 00-.646-1.897 3.282 3.282 0 00-1.897-.647c-.573-.04-1.139-.05-2.185-.05zm5.496 1.822a1.2 1.2 0 100 2.4 1.2 1.2 0 000-2.4zM12 6.865a5.135 5.135 0 100 10.27 5.135 5.135 0 000-10.27zm0 1.943a3.192 3.192 0 110 6.384 3.192 3.192 0 010-6.384z" clip-rule="evenodd" /></svg>
                         </a>
                     </div>
                 </div>
@@ -231,13 +304,39 @@
         </div>
     </footer>
 
-    <!-- JavaScript for Mobile Menu -->
     <script>
+        // Función para abrir la pestaña seleccionada
+        function openTab(tabId) {
+            // Obtiene todos los elementos de contenido de las pestañas
+            const tabContents = document.querySelectorAll('#tab-content-display .tab-content');
+            // Itera sobre ellos y los oculta
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Obtiene todos los botones de las pestañas
+            const tabButtons = document.querySelectorAll('.tab-button');
+            // Itera sobre ellos y remueve la clase 'active'
+            tabButtons.forEach(button => {
+                button.classList.remove('active');
+            });
+
+            // Muestra el contenido de la pestaña seleccionada
+            document.getElementById(tabId).classList.add('active');
+            // Marca el botón de la pestaña seleccionada como activo
+            document.getElementById(tabId + '-button').classList.add('active');
+        }
+
+        // JavaScript para el botón del menú móvil
         document.getElementById('mobile-menu-button').addEventListener('click', function() {
             var menu = document.getElementById('mobile-menu');
             menu.classList.toggle('hidden');
         });
-    </script>
 
+        // Asegura que la primera pestaña esté activa al cargar la página
+        document.addEventListener('DOMContentLoaded', () => {
+            openTab('recetas-faciles-content');
+        });
+    </script>
 </body>
 </html>
